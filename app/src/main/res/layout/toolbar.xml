@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:minHeight="?attr/actionBarSize">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/purple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" >
+
+            <TextView
+                android:id="@+id/txt_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ürünler"
+                android:layout_gravity="center"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                />
+
+            <ImageButton
+                android:id="@+id/btn_close"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="#00FFFFFF"
+                android:visibility="visible"
+                android:layout_gravity="start"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/img_close"/>
+
+            <ImageButton
+                android:id="@+id/btn_deletecart"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="#00FFFFFF"
+                android:visibility="visible"
+                android:layout_gravity="end"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/img_carttrash" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btn_cart"
+                android:layout_width="91dp"
+                android:layout_height="34dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="8dp"
+                android:layout_marginVertical="5dp"
+                app:cardCornerRadius="8dp"
+                app:strokeColor="#FFFFFF"
+                app:strokeWidth="1dp"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/cartbutton_background">
+
+                    <ImageView
+                        android:id="@+id/btnIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/img_cartbutton"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="5dp"/>
+
+                    <TextView
+                        android:id="@+id/btnText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="₺0,00"
+                        android:textColor="@color/purple"
+                        android:textSize="14sp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="10dp"
+                        android:textStyle="bold"/>
+
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.appcompat.widget.Toolbar>
+
+</LinearLayout>

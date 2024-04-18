@@ -1,60 +1,60 @@
 package com.getir.patika.shoppingapp.ui.productlisting
 
+import VerticalAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.getir.patika.shoppingapp.R
+import com.getir.patika.shoppingapp.databinding.FragmentProductListingBinding
+import com.getir.patika.shoppingapp.viewmodels.ProductViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ProductListingFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProductListingFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    private lateinit var binding: FragmentProductListingBinding
+    private val viewModel: ProductViewModel by viewModels()
+    private lateinit var horizontalAdapter: HorizontalAdapter
+    private lateinit var verticalAdapter: VerticalAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_product_listing, container, false)
+    ): View {
+        binding = FragmentProductListingBinding.inflate(inflater,container,false)
+        binding.incToolbar.txtToolbar.text = "Ürünler"
+        binding.incToolbar.btnCart.visibility = View.VISIBLE
+        binding.incToolbar.btnClose.visibility = View.GONE
+        binding.incToolbar.btnDeletecart.visibility = View.GONE
+        return binding.root
+
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProductListingFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProductListingFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.incToolbar.btnCart.setOnClickListener{
+            //BURAYA EĞER SEPETİNDE ÜRÜN VARSA ŞARTI GELECEK
+            findNavController().navigate(R.id.action_productListingFragment_to_shoppingCartFragment2)
+        }
+
+        val layoutManager = GridLayoutManager(requireContext(), 3)
+        binding.recVertical.layoutManager = layoutManager
+        horizontalAdapter = HorizontalAdapter(emptyList())
+        binding.recHorizontal.adapter = horizontalAdapter
+
+        verticalAdapter = VerticalAdapter(emptyList())
+        binding.recVertical.adapter = verticalAdapter
+
+
+        viewModel.horizontalProductList.observe(viewLifecycleOwner) { horizontalList ->
+            horizontalAdapter.updateData(horizontalList)
+        }
+        viewModel.verticalProductList.observe(viewLifecycleOwner) { verticalList ->
+            verticalAdapter.updateData(verticalList)
+        }
     }
 }

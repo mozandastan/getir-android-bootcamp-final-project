@@ -1,4 +1,3 @@
-package com.getir.patika.shoppingapp.ui.shoppingcart
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,33 +7,36 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.getir.patika.shoppingapp.R
 import com.getir.patika.shoppingapp.data.models.Product
-import com.getir.patika.shoppingapp.databinding.ItemAddedproductBinding
 import com.getir.patika.shoppingapp.databinding.ItemProductBinding
 import com.getir.patika.shoppingapp.databinding.ItemSuggestedproductBinding
 
-class ShoppingCartAdapter(private var dataList: List<Product>) :
-    RecyclerView.Adapter<ShoppingCartAdapter.CartViewHolder>() {
+class VerticalAdapter(private var dataList: List<Product>) :
+    RecyclerView.Adapter<VerticalAdapter.VerticalViewHolder>() {
 
     fun updateData(newDataList: List<Product>) {
         dataList = newDataList
         notifyDataSetChanged()
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemAddedproductBinding.inflate(inflater, parent, false)
-        return CartViewHolder(binding)
+        val binding = ItemProductBinding.inflate(inflater, parent, false)
+        return VerticalViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: VerticalViewHolder, position: Int) {
         val item = dataList[position]
+        // Item öğelerini görünüme atama işlemleri burada yapılacak
         holder.bind(item)
+        holder.itemView.setOnClickListener {
+            holder.itemView.findNavController().navigate(R.id.action_productListingFragment_to_productDetailFragment2)
+        }
     }
 
     override fun getItemCount(): Int {
         return dataList.size
     }
 
-    inner class CartViewHolder(private val binding: ItemAddedproductBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class VerticalViewHolder(private val binding: ItemProductBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
             Glide.with(itemView.context)
                 .load(product.imageURL)
