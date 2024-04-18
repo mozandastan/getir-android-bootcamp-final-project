@@ -1,60 +1,57 @@
 package com.getir.patika.shoppingapp.ui.shoppingcart
 
+import DividerItemDecoration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.getir.patika.shoppingapp.R
+import com.getir.patika.shoppingapp.databinding.FragmentProductDetailBinding
+import com.getir.patika.shoppingapp.databinding.FragmentShoppingCartBinding
+import com.getir.patika.shoppingapp.ui.productlisting.HorizontalAdapter
+import com.getir.patika.shoppingapp.viewmodels.ProductViewModel
+import com.getir.patika.shoppingapp.viewmodels.ShoppingCartViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ShoppingCartFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ShoppingCartFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    private lateinit var binding: FragmentShoppingCartBinding
+    private val viewModel: ShoppingCartViewModel by viewModels()
+    private lateinit var cartAdapter: ShoppingCartAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shopping_cart, container, false)
+        binding = FragmentShoppingCartBinding.inflate(inflater, container, false)
+        binding.incToolbar.txtToolbar.text = "Sepetim"
+        binding.incToolbar.btnCart.visibility = View.GONE
+        binding.incToolbar.btnClose.visibility = View.VISIBLE
+        binding.incToolbar.btnDeletecart.visibility = View.VISIBLE
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ShoppingCartFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ShoppingCartFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.incToolbar.btnDeletecart.setOnClickListener{
+            //BURADA KART SİLİNECEK
+            findNavController().navigate(R.id.action_shoppingCartFragment_to_productListingFragment)
+        }
+        binding.incToolbar.btnClose.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        cartAdapter = ShoppingCartAdapter(emptyList())
+        binding.recCart.adapter = cartAdapter
+
+        val itemDecorator = DividerItemDecoration(requireContext())
+        binding.recCart.addItemDecoration(itemDecorator)
+
+        viewModel.cartProductList.observe(viewLifecycleOwner) { cartList ->
+            cartAdapter.updateData(cartList)
+        }
     }
 }
