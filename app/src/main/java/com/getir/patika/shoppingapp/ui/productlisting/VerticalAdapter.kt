@@ -1,6 +1,5 @@
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -8,7 +7,6 @@ import com.bumptech.glide.Glide
 import com.getir.patika.shoppingapp.R
 import com.getir.patika.shoppingapp.data.models.Product
 import com.getir.patika.shoppingapp.databinding.ItemProductBinding
-import com.getir.patika.shoppingapp.databinding.ItemSuggestedproductBinding
 
 class VerticalAdapter(private var dataList: List<Product>) :
     RecyclerView.Adapter<VerticalAdapter.VerticalViewHolder>() {
@@ -44,8 +42,15 @@ class VerticalAdapter(private var dataList: List<Product>) :
                 .into(binding.imgProduct)
 
             binding.txtName.text = product.name
-            binding.txtPrice.text = product.price.toString()
-            binding.txtAtt.text = product.attribute
+            binding.txtPrice.text = product.priceText
+
+            var attText : String? = ""
+            product.attribute?.let {
+                attText = product.attribute } ?: run {
+                attText = product.shortDescription
+            }
+            binding.txtAtt.text = attText
+
         }
     }
 }

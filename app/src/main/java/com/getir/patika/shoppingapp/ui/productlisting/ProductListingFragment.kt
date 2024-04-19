@@ -7,13 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.getir.patika.shoppingapp.R
 import com.getir.patika.shoppingapp.databinding.FragmentProductListingBinding
 import com.getir.patika.shoppingapp.viewmodels.ProductViewModel
-
+import dagger.hilt.android.AndroidEntryPoint
+@AndroidEntryPoint
 class ProductListingFragment : Fragment() {
 
     private lateinit var binding: FragmentProductListingBinding

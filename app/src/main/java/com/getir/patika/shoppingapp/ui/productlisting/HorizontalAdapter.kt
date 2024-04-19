@@ -2,9 +2,7 @@ package com.getir.patika.shoppingapp.ui.productlisting
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.getir.patika.shoppingapp.R
@@ -38,14 +36,20 @@ class HorizontalAdapter(private var dataList: List<Product>) : RecyclerView.Adap
 
     inner class HorizontalViewHolder(private val binding: ItemSuggestedproductBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
+
+            var imgUrl: String? = ""
+            product.imageURL?.let {
+                imgUrl = product.imageURL } ?: run {
+                imgUrl = product.squareThumbnailURL
+            }
             Glide.with(itemView.context)
-                .load(product.imageURL)
+                .load(imgUrl)
                 .placeholder(R.drawable.ic_launcher_background)
                 .into(binding.imgSuggestedproduct)
 
             binding.txtName.text = product.name
-            binding.txtPrice.text = product.price.toString()
-            binding.txtAtt.text = product.attribute
+            binding.txtPrice.text = product.priceText
+            binding.txtAtt.text = product.attribute ?: ""
         }
     }
 }

@@ -12,19 +12,7 @@ class ShoppingCartViewModel : ViewModel() {
 
     init {
         val cartItemList = mutableListOf<Product>()
-        for (i in 1..4) {
-            cartItemList.add(
-                Product(
-                    "Attribute $i",
-                    "ID $i",
-                    "https://images.crunchbase.com/image/upload/c_pad,f_auto,q_auto:eco,dpr_1/zm60fzffzzatwv35syvs",
-                    "Product $i",
-                    10.0 * i,
-                    "$10.00",
-                    "Short description for Product $i",
-                    "https://example.com/thumbnail$i"
-                )
-            )
+        for (i in 1..7) {
         }
         _cartProductList.value = cartItemList
     }
