@@ -1,4 +1,14 @@
 package com.getir.patika.shoppingapp.data.service
 
-class ApiService {
+import com.getir.patika.shoppingapp.data.models.ProductsItem
+import com.getir.patika.shoppingapp.data.models.SuggestedProductItem
+import retrofit2.Response
+import retrofit2.http.GET
+
+interface ApiService {
+    @GET("products")
+    suspend fun getProducts(): Response<List<ProductsItem>>
+    @GET("suggestedProducts")
+    suspend fun getSuggestedProducts(): Response<List<SuggestedProductItem>>
+    //suspend fun getSuggestedProducts(): Response<List<Product>>
 }

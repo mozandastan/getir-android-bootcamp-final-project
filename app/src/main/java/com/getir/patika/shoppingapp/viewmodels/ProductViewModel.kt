@@ -3,9 +3,16 @@ package com.getir.patika.shoppingapp.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.getir.patika.shoppingapp.data.models.Product
+import com.getir.patika.shoppingapp.data.repository.ProductRepository
+import com.getir.patika.shoppingapp.data.service.CallResult
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProductViewModel : ViewModel() {
+@HiltViewModel
+class ProductViewModel @Inject constructor(private val productRepository: ProductRepository) : ViewModel() {
 
     private val _horizontalProductList = MutableLiveData<List<Product>>()
     val horizontalProductList: LiveData<List<Product>> = _horizontalProductList
@@ -14,38 +21,42 @@ class ProductViewModel : ViewModel() {
     val verticalProductList: LiveData<List<Product>> = _verticalProductList
 
     init {
-        val horizontalList = mutableListOf<Product>()
-        for (i in 1..7) {
-            horizontalList.add(
-                Product(
-                    "Attribute $i",
-                    "ID $i",
-                    "https://example.com/image$i",
-                    "Product $i",
-                    10.0 * i,
-                    "$10.00",
-                    "Short description for Product $i",
-                    "https://example.com/thumbnail$i"
-                )
-            )
+        getProducts()
+        getSuggestedProducts()
+    }
+    private fun getProducts() {
+        viewModelScope.launch {
+            productRepository.getProducts().collect { result ->
+                when (result) {
+                    is CallResult.Loading -> {
+                    }
+                    is CallResult.Success -> {
+                        result.data.let {
+                            _verticalProductList.value = it
+                        }
+                    }
+                    is CallResult.Error -> {
+                    }
+                }
+            }
         }
-        _horizontalProductList.value = horizontalList
+    }
 
-        val verticalList = mutableListOf<Product>()
-        for (i in 7..20) {
-            verticalList.add(
-                Product(
-                    "Attribute $i",
-                    "ID $i",
-                    "https://example.com/image$i",
-                    "Product $i",
-                    10.0 * i,
-                    "$10.00",
-                    "Short description for Product $i",
-                    "https://example.com/thumbnail$i"
-                )
-            )
+    private fun getSuggestedProducts() {
+        viewModelScope.launch {
+            productRepository.getSuggestedProducts().collect { result ->
+                when (result) {
+                    is CallResult.Loading -> {
+                    }
+                    is CallResult.Success -> {
+                        result.data.let {
+                            _horizontalProductList.value = it
+                        }
+                    }
+                    is CallResult.Error -> {
+                    }
+                }
+            }
         }
-        _verticalProductList.value = verticalList
     }
 }
