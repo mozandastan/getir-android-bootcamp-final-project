@@ -2,6 +2,7 @@ package com.getir.patika.shoppingapp.ui.productlisting
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -9,8 +10,10 @@ import com.getir.patika.shoppingapp.R
 import com.getir.patika.shoppingapp.data.models.Product
 
 import com.getir.patika.shoppingapp.databinding.ItemSuggestedproductBinding
+import com.getir.patika.shoppingapp.viewmodels.ProductViewModel
 
-class HorizontalAdapter(private var dataList: List<Product>) : RecyclerView.Adapter<HorizontalAdapter.HorizontalViewHolder>() {
+class HorizontalAdapter(private var dataList: List<Product>, private val viewModel: ProductViewModel) :
+    RecyclerView.Adapter<HorizontalAdapter.HorizontalViewHolder>() {
 
     fun updateData(newDataList: List<Product>) {
         dataList = newDataList
@@ -26,6 +29,7 @@ class HorizontalAdapter(private var dataList: List<Product>) : RecyclerView.Adap
         val item = dataList[position]
         holder.bind(item)
         holder.itemView.setOnClickListener {
+            viewModel.setSelectedProduct(item)
             holder.itemView.findNavController().navigate(R.id.action_productListingFragment_to_productDetailFragment2)
         }
     }
@@ -52,4 +56,5 @@ class HorizontalAdapter(private var dataList: List<Product>) : RecyclerView.Adap
             binding.txtAtt.text = product.attribute ?: ""
         }
     }
+
 }

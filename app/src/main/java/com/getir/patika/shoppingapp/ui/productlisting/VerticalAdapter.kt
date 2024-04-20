@@ -7,8 +7,9 @@ import com.bumptech.glide.Glide
 import com.getir.patika.shoppingapp.R
 import com.getir.patika.shoppingapp.data.models.Product
 import com.getir.patika.shoppingapp.databinding.ItemProductBinding
+import com.getir.patika.shoppingapp.viewmodels.ProductViewModel
 
-class VerticalAdapter(private var dataList: List<Product>) :
+class VerticalAdapter(private var dataList: List<Product>, private val viewModel: ProductViewModel) :
     RecyclerView.Adapter<VerticalAdapter.VerticalViewHolder>() {
 
     fun updateData(newDataList: List<Product>) {
@@ -26,6 +27,7 @@ class VerticalAdapter(private var dataList: List<Product>) :
         // Item öğelerini görünüme atama işlemleri burada yapılacak
         holder.bind(item)
         holder.itemView.setOnClickListener {
+            viewModel.setSelectedProduct(item)
             holder.itemView.findNavController().navigate(R.id.action_productListingFragment_to_productDetailFragment2)
         }
     }
