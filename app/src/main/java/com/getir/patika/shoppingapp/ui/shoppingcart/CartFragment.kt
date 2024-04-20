@@ -8,19 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import com.getir.patika.shoppingapp.R
-import com.getir.patika.shoppingapp.databinding.FragmentProductDetailBinding
 import com.getir.patika.shoppingapp.databinding.FragmentShoppingCartBinding
-import com.getir.patika.shoppingapp.ui.productlisting.HorizontalAdapter
-import com.getir.patika.shoppingapp.viewmodels.ProductViewModel
-import com.getir.patika.shoppingapp.viewmodels.ShoppingCartViewModel
+import com.getir.patika.shoppingapp.viewmodels.CartViewModel
 
-class ShoppingCartFragment : Fragment() {
+class CartFragment : Fragment() {
 
     private lateinit var binding: FragmentShoppingCartBinding
-    private val viewModel: ShoppingCartViewModel by viewModels()
-    private lateinit var cartAdapter: ShoppingCartAdapter
+    private val viewModel: CartViewModel by viewModels()
+    private lateinit var cartAdapter: CartAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,7 +40,7 @@ class ShoppingCartFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        cartAdapter = ShoppingCartAdapter(emptyList())
+        cartAdapter = CartAdapter(emptyList())
         binding.recCart.adapter = cartAdapter
 
         val itemDecorator = DividerItemDecoration(requireContext())

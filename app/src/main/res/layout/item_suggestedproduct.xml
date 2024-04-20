@@ -28,26 +28,6 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <!--
-    <androidx.cardview.widget.CardView
-        android:id="@+id/btn_plus"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
-        android:translationZ="4dp"
-        android:layout_gravity="end"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/img_plus" />
-    </androidx.cardview.widget.CardView>
-    !-->
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
         android:layout_width="32dp"
@@ -56,8 +36,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:translationZ="4dp"
-        app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
+        app:cardCornerRadius="8dp"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -73,9 +53,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="#FFFFFF"
-                android:src="@drawable/img_plus"
-                android:visibility="visible" />
+                android:background="@color/white"
+                android:src="@drawable/img_plus" />
 
             <TextView
                 android:id="@+id/txt_Count"
@@ -87,17 +66,15 @@
                 android:text="@string/_1"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                android:textStyle="bold"
-                android:visibility="visible"/>
+                android:fontFamily="@font/open_sans_bold" />
 
             <ImageButton
                 android:id="@+id/btn_delete"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="#FFFFFF"
-                android:src="@drawable/img_trash"
-                android:visibility="visible" />
+                android:background="@color/white"
+                android:src="@drawable/img_trash" />
 
         </LinearLayout>
 
@@ -119,9 +96,7 @@
             android:text="@string/_0_00"
             android:textColor="@color/purple"
             android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_product" />
+            android:fontFamily="@font/open_sans_bold" />
 
         <TextView
             android:id="@+id/txt_name"
@@ -129,9 +104,7 @@
             android:layout_height="wrap_content"
             android:text="@string/product_name"
             android:textColor="@color/text_dark"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_price" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/txt_att"
@@ -140,9 +113,7 @@
             android:layout_marginTop="2dp"
             android:text="@string/attribute"
             android:textColor="@color/text_grey"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_name" />
+            android:textSize="12sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

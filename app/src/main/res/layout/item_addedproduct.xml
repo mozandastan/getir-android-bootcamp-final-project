@@ -20,18 +20,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
+
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.cardview.widget.CardView
         android:layout_width="102dp"
         android:layout_height="32dp"
         android:translationZ="4dp"
-        app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
+        app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/card_product"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:strokeWidth="0dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,23 +42,25 @@
                 android:id="@+id/btn_delete"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:background="#FFFFFF"
+                android:background="@color/white"
                 android:src="@drawable/img_trash"/>
+
             <TextView
                 android:id="@+id/txt_Count"
                 android:layout_width="38dp"
                 android:layout_height="32dp"
                 android:background="@color/purple"
                 android:gravity="center"
-                android:text="1"
+                android:text="@string/_1"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/open_sans_bold" />
+
             <ImageButton
                 android:id="@+id/btn_plus"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:background="#FFFFFF"
+                android:background="@color/white"
                 android:src="@drawable/img_plusbig"
                 />
         </LinearLayout>
@@ -78,7 +80,7 @@
             android:id="@+id/txt_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product Name"
+            android:text="@string/product_name"
             android:textColor="@color/text_dark"
             android:textSize="12sp" />
 
@@ -86,7 +88,7 @@
             android:id="@+id/txt_att"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Attribute"
+            android:text="@string/attribute"
             android:textColor="@color/text_grey"
             android:textSize="12sp" />
 
@@ -95,10 +97,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="₺0,00"
+            android:text="@string/_0_00"
             android:textColor="@color/purple"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/open_sans_bold" />
 
     </LinearLayout>
 
