@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.getir.patika.shoppingapp.data.models.Product
 
-class ShoppingCartViewModel : ViewModel() {
+class CartViewModel : ViewModel() {
 
     private val _cartProductList = MutableLiveData<List<Product>>()
     val cartProductList: LiveData<List<Product>> = _cartProductList

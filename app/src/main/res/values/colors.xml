@@ -7,4 +7,5 @@
     <color name="text_dark">#191919</color>
     <color name="text_grey">#697488</color>
     <color name="stroke_grey">#F2F0FA</color>
+    <color name="full_transparent">#00FFFFFF</color>
 </resources>

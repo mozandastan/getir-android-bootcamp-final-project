@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/shoppingCartFragment"
-        android:name="com.getir.patika.shoppingapp.ui.shoppingcart.ShoppingCartFragment"
+        android:name="com.getir.patika.shoppingapp.ui.shoppingcart.CartFragment"
         android:label="fragment_shopping_cart"
         tools:layout="@layout/fragment_shopping_cart" >
         <action

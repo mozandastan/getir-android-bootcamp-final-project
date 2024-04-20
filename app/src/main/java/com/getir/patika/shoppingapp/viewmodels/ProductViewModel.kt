@@ -1,5 +1,6 @@
 package com.getir.patika.shoppingapp.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,6 +20,9 @@ class ProductViewModel @Inject constructor(private val productRepository: Produc
 
     private val _verticalProductList = MutableLiveData<List<Product>>()
     val verticalProductList: LiveData<List<Product>> = _verticalProductList
+
+    private val _selectedProduct  = MutableLiveData<Product>()
+    val selectedProduct: LiveData<Product> = _selectedProduct
 
     init {
         getProducts()
@@ -41,7 +45,6 @@ class ProductViewModel @Inject constructor(private val productRepository: Produc
             }
         }
     }
-
     private fun getSuggestedProducts() {
         viewModelScope.launch {
             productRepository.getSuggestedProducts().collect { result ->
@@ -58,5 +61,8 @@ class ProductViewModel @Inject constructor(private val productRepository: Produc
                 }
             }
         }
+    }
+    fun setSelectedProduct(product: Product) {
+        _selectedProduct.value = product
     }
 }

@@ -8,8 +8,8 @@ import com.getir.patika.shoppingapp.R
 import com.getir.patika.shoppingapp.data.models.Product
 import com.getir.patika.shoppingapp.databinding.ItemAddedproductBinding
 
-class ShoppingCartAdapter(private var dataList: List<Product>) :
-    RecyclerView.Adapter<ShoppingCartAdapter.CartViewHolder>() {
+class CartAdapter(private var dataList: List<Product>) :
+    RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
     fun updateData(newDataList: List<Product>) {
         dataList = newDataList

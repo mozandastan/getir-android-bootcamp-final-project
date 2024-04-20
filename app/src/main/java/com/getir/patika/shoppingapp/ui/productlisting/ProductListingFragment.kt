@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProductListingFragment : Fragment() {
 
     private lateinit var binding: FragmentProductListingBinding
-    private val viewModel: ProductViewModel by viewModels()
+    private val viewModel: ProductViewModel by activityViewModels()
     private lateinit var horizontalAdapter: HorizontalAdapter
     private lateinit var verticalAdapter: VerticalAdapter
     override fun onCreateView(
@@ -43,10 +44,10 @@ class ProductListingFragment : Fragment() {
 
         val layoutManager = GridLayoutManager(requireContext(), 3)
         binding.recVertical.layoutManager = layoutManager
-        horizontalAdapter = HorizontalAdapter(emptyList())
+        horizontalAdapter = HorizontalAdapter(emptyList(),viewModel)
         binding.recHorizontal.adapter = horizontalAdapter
 
-        verticalAdapter = VerticalAdapter(emptyList())
+        verticalAdapter = VerticalAdapter(emptyList(),viewModel)
         binding.recVertical.adapter = verticalAdapter
 
 
