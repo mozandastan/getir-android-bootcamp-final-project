@@ -10,5 +10,4 @@ interface ApiService {
     suspend fun getProducts(): Response<List<ProductsItem>>
     @GET("suggestedProducts")
     suspend fun getSuggestedProducts(): Response<List<SuggestedProductItem>>
-    //suspend fun getSuggestedProducts(): Response<List<Product>>
 }

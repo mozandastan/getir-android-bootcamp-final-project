@@ -6,12 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.getir.patika.shoppingapp.R
 import com.getir.patika.shoppingapp.databinding.FragmentProductListingBinding
+import com.getir.patika.shoppingapp.viewmodels.CartViewModel
 import com.getir.patika.shoppingapp.viewmodels.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
@@ -19,6 +22,7 @@ class ProductListingFragment : Fragment() {
 
     private lateinit var binding: FragmentProductListingBinding
     private val viewModel: ProductViewModel by activityViewModels()
+    private val cartViewModel: CartViewModel by activityViewModels()
     private lateinit var horizontalAdapter: HorizontalAdapter
     private lateinit var verticalAdapter: VerticalAdapter
     override fun onCreateView(
@@ -38,16 +42,20 @@ class ProductListingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.incToolbar.btnCart.setOnClickListener{
-            //BURAYA EĞER SEPETİNDE ÜRÜN VARSA ŞARTI GELECEK
-            findNavController().navigate(R.id.action_productListingFragment_to_shoppingCartFragment2)
+            if(cartViewModel.totalPrice.value!! > 0){
+                findNavController().navigate(R.id.action_productListingFragment_to_shoppingCartFragment2)
+            }
+            else{
+                showToast()
+            }
         }
 
         val layoutManager = GridLayoutManager(requireContext(), 3)
         binding.recVertical.layoutManager = layoutManager
-        horizontalAdapter = HorizontalAdapter(emptyList(),viewModel)
+        horizontalAdapter = HorizontalAdapter(emptyList(),viewModel,cartViewModel)
         binding.recHorizontal.adapter = horizontalAdapter
 
-        verticalAdapter = VerticalAdapter(emptyList(),viewModel)
+        verticalAdapter = VerticalAdapter(emptyList(),viewModel,cartViewModel)
         binding.recVertical.adapter = verticalAdapter
 
 
@@ -57,5 +65,17 @@ class ProductListingFragment : Fragment() {
         viewModel.verticalProductList.observe(viewLifecycleOwner) { verticalList ->
             verticalAdapter.updateData(verticalList)
         }
+
+        cartViewModel.totalPrice.observe(viewLifecycleOwner, Observer { totalPrice ->
+                binding.incToolbar.btnText.text = getString(R.string.price_format, totalPrice)
+        })
+
+        cartViewModel.cartItems.observe(viewLifecycleOwner) { cartItems ->
+            verticalAdapter.refreshData()
+            horizontalAdapter.refreshData()
+        }
+    }
+    private fun showToast() {
+        Toast.makeText(context, "Sepetiniz boş. Sepetim sayfasına gidebilmek ürün ekleyin.", Toast.LENGTH_SHORT).show()
     }
 }

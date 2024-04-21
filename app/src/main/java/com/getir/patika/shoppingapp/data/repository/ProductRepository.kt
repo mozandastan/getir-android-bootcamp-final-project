@@ -11,6 +11,7 @@ import javax.inject.Singleton
 @Singleton
 class ProductRepository @Inject constructor(private val apiService: ApiService) {
 
+
     suspend fun getProducts(): Flow<CallResult<List<Product>>> = flow {
         emit(CallResult.Loading)
         try {
@@ -42,4 +43,5 @@ class ProductRepository @Inject constructor(private val apiService: ApiService) 
             emit(CallResult.Error(e.message ?: "An error occurred"))
         }
     }
+
 }

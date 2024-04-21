@@ -8,4 +8,5 @@
     <string name="sepete_ekle">Sepete Ekle</string>
     <string name="urunler">Ürünler</string>
     <string name="siparisi_tamamla">Siparişi Tamamla</string>
+    <string name="price_format">₺%1$.2f</string>
 </resources>
