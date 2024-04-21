@@ -29,7 +29,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView2"
+        android:id="@+id/suggesteditemstatecardview"
         android:layout_width="32dp"
         android:layout_height="96dp"
         android:layout_gravity="end"
@@ -84,7 +84,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="@+id/cardView2"
+        app:layout_constraintEnd_toEndOf="@+id/suggesteditemstatecardview"
         app:layout_constraintStart_toStartOf="@+id/card_suggestedproduct"
         app:layout_constraintTop_toBottomOf="@+id/card_suggestedproduct">
 
