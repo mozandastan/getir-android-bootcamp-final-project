@@ -14,4 +14,5 @@
     <string name="dialog_body">Dialog Body</string>
     <string name="dialog_title">Dialog Title</string>
     <string name="cart_empty">Sepetiniz boş. Sepetim sayfasına gidebilmek ürün ekleyin.</string>
+    <string name="urun_detay">Ürün Detayı</string>
 </resources>

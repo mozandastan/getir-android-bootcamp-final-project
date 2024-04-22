@@ -1,13 +1,11 @@
 package com.getir.patika.shoppingapp.ui.details
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -26,13 +24,10 @@ class ProductDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentProductDetailBinding.inflate(inflater, container, false)
-        binding.incToolbar.txtToolbar.text = "Ürün Detayı"
-        binding.incToolbar.btnCart.visibility = View.GONE
-        binding.incToolbar.btnClose.visibility = View.VISIBLE
-        binding.incToolbar.btnDeletecart.visibility = View.GONE
-        binding.btnAddcart.visibility = View.VISIBLE
+
+        setupToolbar()
         binding.cardCartOps.visibility = View.GONE
 
         return binding.root
@@ -41,98 +36,96 @@ class ProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.incToolbar.btnCart.setOnClickListener {
-            //BURAYA EĞER SEPETİNDE ÜRÜN VARSA ŞARTI GELECEK
-            findNavController().navigate(R.id.action_productDetailFragment_to_shoppingCartFragment2)
+        setupButtonClickListeners()
+        observeSelectedProduct()
+        observeCartItems()
+        observeTotalPrice()
+    }
+    private fun setupToolbar() {
+        binding.incToolbar.apply {
+            txtToolbar.text = getString(R.string.urun_detay)
+            btnCart.visibility = View.GONE
+            btnClose.visibility = View.VISIBLE
+            btnDeletecart.visibility = View.GONE
         }
-        binding.incToolbar.btnClose.setOnClickListener {
-            findNavController().navigateUp()
-        }
-
-        viewModel.selectedProduct.observe(viewLifecycleOwner) { selectedProduct ->
-            var imgUrl: String? = ""
-            selectedProduct.imageURL?.let {
-                imgUrl = selectedProduct.imageURL
-            } ?: run {
-                imgUrl = selectedProduct.squareThumbnailURL
+    }
+    private fun setupButtonClickListeners() {
+        binding.incToolbar.apply {
+            btnCart.setOnClickListener {
+                findNavController().navigate(R.id.action_productDetailFragment_to_shoppingCartFragment2)
             }
-            Glide.with(requireContext())
-                .load(imgUrl)
-                .placeholder(R.drawable.img_defproduct)
-                .into(binding.imgProduct)
-
-            binding.txtName.text = selectedProduct.name
-            binding.txtPrice.text = selectedProduct.priceText
-
-            var attText: String? = ""
-            selectedProduct.attribute?.let {
-                attText = selectedProduct.attribute
-            } ?: run {
-                attText = selectedProduct.shortDescription
+            btnClose.setOnClickListener {
+                findNavController().navigateUp()
             }
-            binding.txtAtt.text = attText
         }
-
         binding.btnAddcart.setOnClickListener {
-            // Ürünü sepete ekle
-            val selectedProduct = viewModel.selectedProduct.value
-            selectedProduct?.let { product ->
+            viewModel.selectedProduct.value?.let { product ->
                 cartViewModel.addToCart(product)
             }
         }
         binding.btnPlus.setOnClickListener {
-            // Ürünü sepete ekle
-            val selectedProduct = viewModel.selectedProduct.value
-            selectedProduct?.let { product ->
+            viewModel.selectedProduct.value?.let { product ->
                 cartViewModel.addToCart(product)
             }
         }
         binding.btnDelete.setOnClickListener {
-            val selectedProduct = viewModel.selectedProduct.value
-            selectedProduct?.let { product ->
-                // Ürünün sepete eklenmiş olup olmadığını kontrol et
+            viewModel.selectedProduct.value?.let { product ->
                 val itemCount = cartViewModel.getProductCount(product)
                 if (itemCount > 1) {
-                    // Sepete birden fazla ürün eklenmişse, ürün sayısını bir azalt
                     cartViewModel.removeFromCart(product)
-                } else {
-                    // Sepete sadece bir ürün eklenmişse, ürünü sepetten sil
+                }else{
                     cartViewModel.removeFromCart(product)
                 }
             }
         }
-
-        // Sepetteki ürün sayısını ve sepete eklenmiş olup olmadığını kontrol et
-        cartViewModel.cartItems.observe(viewLifecycleOwner, Observer { cartItems ->
-            val selectedProduct = viewModel.selectedProduct.value
-            selectedProduct?.let { product ->
-                val itemCount = cartItems.count { it.id == product.id }
-                if (itemCount > 0) {
-                    // Sepete eklenen ürün sayısını göster
-                    binding.txtCount.text = itemCount.toString()
-                    binding.cardCartOps.visibility = View.VISIBLE
-                    binding.btnAddcart.visibility = View.GONE
-
-                    if(itemCount == 1){
-                        binding.btnDelete.setImageResource(R.drawable.img_trash)
-                    }else{
-                        binding.btnDelete.setImageResource(R.drawable.img_minus)
-                    }
-                } else {
-                    // Ürün sepete eklenmemişse görünümü gizle
-                    binding.cardCartOps.visibility = View.GONE
-                    binding.btnAddcart.visibility = View.VISIBLE
-                }
+    }
+    private fun observeSelectedProduct() {
+        viewModel.selectedProduct.observe(viewLifecycleOwner) { selectedProduct ->
+            displayProductDetails(selectedProduct)
+        }
+    }
+    private fun observeCartItems() {
+        cartViewModel.cartItems.observe(viewLifecycleOwner) { cartItems ->
+            viewModel.selectedProduct.value?.let { product ->
+                updateCartView(product)
             }
-        })
-        // Sepetteki toplam ürün fiyatını güncelleyin
-        cartViewModel.totalPrice.observe(viewLifecycleOwner, Observer { totalPrice ->
-            if(totalPrice > 0){
+        }
+    }
+    private fun observeTotalPrice() {
+        cartViewModel.totalPrice.observe(viewLifecycleOwner) { totalPrice ->
+            if (totalPrice > 0) {
                 binding.incToolbar.btnCart.visibility = View.VISIBLE
                 binding.incToolbar.btnText.text = getString(R.string.price_format, totalPrice)
-            }else{
+            } else {
                 binding.incToolbar.btnCart.visibility = View.GONE
             }
-        })
+        }
+    }
+    private fun displayProductDetails(product: Product) {
+        val imgUrl = product.imageURL ?: product.squareThumbnailURL
+        Glide.with(requireContext())
+            .load(imgUrl)
+            .placeholder(R.drawable.img_defproduct)
+            .into(binding.imgProduct)
+
+        binding.txtName.text = product.name
+        binding.txtPrice.text = product.priceText
+        binding.txtAtt.text = product.attribute ?: product.shortDescription
+    }
+    private fun updateCartView(product: Product) {
+        val itemCount = cartViewModel.getProductCount(product)
+        if (itemCount > 0) {
+            binding.txtCount.text = itemCount.toString()
+            binding.cardCartOps.visibility = View.VISIBLE
+            binding.btnAddcart.visibility = View.GONE
+            if (itemCount == 1) {
+                binding.btnDelete.setImageResource(R.drawable.img_trash)
+            } else {
+                binding.btnDelete.setImageResource(R.drawable.img_minus)
+            }
+        } else {
+            binding.cardCartOps.visibility = View.GONE
+            binding.btnAddcart.visibility = View.VISIBLE
+        }
     }
 }

@@ -41,23 +41,27 @@ class VerticalAdapter(private var dataList: List<Product>,
     inner class VerticalViewHolder(private val binding: ItemProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(product: Product) {
-
-            //Set add to cart button
-            binding.btnPlus.setOnClickListener {
-                cartViewModel.addToCart(product)
-            }
-            //Set remove from cart button
-            binding.btnDelete.setOnClickListener {
-                if (cartViewModel.isProductInCart(product)) {
-                    cartViewModel.removeFromCart(product)
+            init {
+                //Set add to cart button
+                binding.btnPlus.setOnClickListener {
+                    val product = dataList[bindingAdapterPosition]
+                    cartViewModel.addToCart(product)
+                }
+                //Set remove from cart button
+                binding.btnDelete.setOnClickListener {
+                    val product = dataList[bindingAdapterPosition]
+                    if (cartViewModel.isProductInCart(product)) {
+                        cartViewModel.removeFromCart(product)
+                    }
+                }
+                //Set product detail button
+                itemView.setOnClickListener {
+                    val product = dataList[bindingAdapterPosition]
+                    viewModel.setSelectedProduct(product)
+                    itemView.findNavController().navigate(R.id.action_productListingFragment_to_productDetailFragment2)
                 }
             }
-            //Set product detail button
-            itemView.setOnClickListener {
-                viewModel.setSelectedProduct(product)
-                itemView.findNavController().navigate(R.id.action_productListingFragment_to_productDetailFragment2)
-            }
+        fun bind(product: Product) {
 
             //Load image
             val imgUrl = product.thumbnailURL ?:product.imageURL
