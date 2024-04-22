@@ -9,4 +9,8 @@
     <string name="urunler">Ürünler</string>
     <string name="siparisi_tamamla">Siparişi Tamamla</string>
     <string name="price_format">₺%1$.2f</string>
+    <string name="positive">Positive</string>
+    <string name="negative">Negative</string>
+    <string name="dialog_body">Dialog Body</string>
+    <string name="dialog_title">Dialog Title</string>
 </resources>

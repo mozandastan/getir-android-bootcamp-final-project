@@ -3,6 +3,7 @@ package com.getir.patika.shoppingapp.ui.productlisting
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -75,12 +76,18 @@ class HorizontalAdapter(private var dataList: List<Product>, private val viewMod
             }
             Glide.with(itemView.context)
                 .load(imgUrl)
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.img_defproduct)
                 .into(binding.imgSuggestedproduct)
 
             binding.txtName.text = product.name
             binding.txtPrice.text = product.priceText
-            binding.txtAtt.text = product.attribute ?: ""
+
+            var attText : String? = ""
+            product.attribute?.let {
+                attText = product.attribute } ?: run {
+                attText = product.shortDescription
+            }
+            binding.txtAtt.text = attText
 
             // Check if the product is in the cart
             val cartItems = cartViewModel.cartItems.value.orEmpty()
@@ -89,6 +96,9 @@ class HorizontalAdapter(private var dataList: List<Product>, private val viewMod
                 binding.txtCount.text = count.toString()
                 binding.txtCount.visibility = View.VISIBLE
                 binding.btnDelete.visibility = View.VISIBLE
+
+                val color = ContextCompat.getColor(itemView.context, R.color.purple)
+                binding.cardSuggestedproduct.strokeColor = color
 
                 val layoutParam = binding.suggesteditemstatecardview.layoutParams
                 layoutParam.height = 96.dpToPx(itemView.context)
@@ -102,6 +112,9 @@ class HorizontalAdapter(private var dataList: List<Product>, private val viewMod
             } else {
                 binding.txtCount.visibility = View.GONE
                 binding.btnDelete.visibility = View.GONE
+
+                val color = ContextCompat.getColor(itemView.context, R.color.stroke_grey)
+                binding.cardSuggestedproduct.strokeColor = color
 
                 val layoutParam = binding.suggesteditemstatecardview.layoutParams
                 layoutParam.height = 32.dpToPx(itemView.context)

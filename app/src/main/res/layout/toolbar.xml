@@ -44,41 +44,46 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/btn_cart"
-                android:layout_width="91dp"
+                android:layout_width="wrap_content"
                 android:layout_height="34dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="6dp"
+                android:layout_marginTop="16dp"
                 android:layout_gravity="end"
                 android:layout_marginEnd="8dp"
-                app:cardCornerRadius="8dp"
                 app:strokeColor="@color/white"
-                app:strokeWidth="1dp"
-                >
-                <RelativeLayout
+                app:cardBackgroundColor="@color/stroke_grey"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/cartbutton_background">
+                    android:orientation="horizontal">
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/btnIcon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:layout_width="34dp"
+                        android:layout_height="match_parent"
                         android:src="@drawable/img_cartbutton"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="5dp"/>
+                        android:layout_weight="1" />
 
                     <TextView
+                        android:background="@color/stroke_grey"
+                        android:gravity="center"
                         android:id="@+id/btnText"
+                        android:minWidth="48dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:text="@string/_0_00"
                         android:textColor="@color/purple"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="10dp"
                         android:textSize="14sp"
-                        android:fontFamily="@font/open_sans_bold"/>
+                        android:fontFamily="@font/open_sans_bold"
+                        android:layout_weight="2"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="6dp"/>
 
-                </RelativeLayout>
+                </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 

@@ -58,7 +58,7 @@ class ProductDetailFragment : Fragment() {
             }
             Glide.with(requireContext())
                 .load(imgUrl)
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.img_defproduct)
                 .into(binding.imgProduct)
 
             binding.txtName.text = selectedProduct.name
@@ -112,14 +112,16 @@ class ProductDetailFragment : Fragment() {
                     binding.txtCount.text = itemCount.toString()
                     binding.cardCartOps.visibility = View.VISIBLE
                     binding.btnAddcart.visibility = View.GONE
-                    binding.btnDelete.setImageResource(R.drawable.img_minus)
-                    //binding.incToolbar.btnCart.visibility = View.VISIBLE
+
+                    if(itemCount == 1){
+                        binding.btnDelete.setImageResource(R.drawable.img_trash)
+                    }else{
+                        binding.btnDelete.setImageResource(R.drawable.img_minus)
+                    }
                 } else {
                     // Ürün sepete eklenmemişse görünümü gizle
                     binding.cardCartOps.visibility = View.GONE
                     binding.btnAddcart.visibility = View.VISIBLE
-                    binding.btnDelete.setImageResource(R.drawable.img_trash)
-                    //binding.incToolbar.btnCart.visibility = View.GONE
                 }
             }
         })

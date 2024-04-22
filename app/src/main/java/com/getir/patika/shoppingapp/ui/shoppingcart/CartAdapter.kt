@@ -52,11 +52,11 @@ class CartAdapter(private var dataList: List<Product>,private val cartViewModel:
             }
             Glide.with(itemView.context)
                 .load(imgUrl)
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.img_defproduct)
                 .into(binding.imgProduct)
 
             binding.txtName.text = product.name
-            binding.txtPrice.text = product.price.toString()
+            binding.txtPrice.text = product.priceText
 
             var attText : String? = ""
             product.attribute?.let {

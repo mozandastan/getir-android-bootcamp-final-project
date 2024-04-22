@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_dialogtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dialog_title"
+                android:layout_margin="16dp"
+                android:textSize="16sp"
+                android:textColor="@color/text_dark"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/txt_dialogbody"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dialog_body"
+                android:layout_margin="14dp"
+                android:textSize="16sp"
+                android:textColor="@color/text_grey"
+                android:layout_gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="14dp"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_neg"
+                    android:layout_width="125dp"
+                    android:layout_height="50dp"
+                    android:text="@string/negative"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/open_sans_bold"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/purple"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_pos"
+                    android:layout_width="125dp"
+                    android:layout_height="50dp"
+                    android:text="@string/positive"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/open_sans_bold"
+                    android:background="@color/purple"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    </LinearLayout>

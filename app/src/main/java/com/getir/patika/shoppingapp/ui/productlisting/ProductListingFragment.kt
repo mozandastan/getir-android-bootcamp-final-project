@@ -52,12 +52,11 @@ class ProductListingFragment : Fragment() {
 
         val layoutManager = GridLayoutManager(requireContext(), 3)
         binding.recVertical.layoutManager = layoutManager
-        horizontalAdapter = HorizontalAdapter(emptyList(),viewModel,cartViewModel)
-        binding.recHorizontal.adapter = horizontalAdapter
-
         verticalAdapter = VerticalAdapter(emptyList(),viewModel,cartViewModel)
         binding.recVertical.adapter = verticalAdapter
 
+        horizontalAdapter = HorizontalAdapter(emptyList(),viewModel,cartViewModel)
+        binding.recHorizontal.adapter = horizontalAdapter
 
         viewModel.horizontalProductList.observe(viewLifecycleOwner) { horizontalList ->
             horizontalAdapter.updateData(horizontalList)
@@ -67,7 +66,13 @@ class ProductListingFragment : Fragment() {
         }
 
         cartViewModel.totalPrice.observe(viewLifecycleOwner, Observer { totalPrice ->
-                binding.incToolbar.btnText.text = getString(R.string.price_format, totalPrice)
+
+            val formattedPrice = if (totalPrice < 0) {
+                0.00
+            } else {
+                totalPrice
+            }
+            binding.incToolbar.btnText.text = getString(R.string.price_format, formattedPrice)
         })
 
         cartViewModel.cartItems.observe(viewLifecycleOwner) { cartItems ->
