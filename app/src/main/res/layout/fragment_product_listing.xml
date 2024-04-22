@@ -18,7 +18,9 @@
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_marginTop="16dp"
-        android:padding="16dp"/>
+        android:paddingStart="16dp"
+        android:paddingEnd="8dp"
+        android:clipToPadding="false"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rec_vertical"
@@ -28,7 +30,9 @@
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_marginTop="16dp"
-        android:paddingHorizontal="16dp"
-        android:paddingTop="16dp"/>
+        android:paddingStart="16dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="16dp"
+        android:clipToPadding="false"/>
 
 </LinearLayout>

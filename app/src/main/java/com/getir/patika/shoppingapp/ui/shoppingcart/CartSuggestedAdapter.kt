@@ -3,6 +3,7 @@ package com.getir.patika.shoppingapp.ui.shoppingcart
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.getir.patika.shoppingapp.R
@@ -59,11 +60,11 @@ class CartSuggestedAdapter(private var dataList: List<Product>, private val cart
             }
             Glide.with(itemView.context)
                 .load(imgUrl)
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.img_defproduct)
                 .into(binding.imgSuggestedproduct)
 
             binding.txtName.text = product.name
-            binding.txtPrice.text = product.price.toString()
+            binding.txtPrice.text = product.priceText
 
             var attText: String? = ""
             product.attribute?.let {
@@ -82,6 +83,9 @@ class CartSuggestedAdapter(private var dataList: List<Product>, private val cart
                 binding.txtCount.visibility = View.VISIBLE
                 binding.btnDelete.visibility = View.VISIBLE
 
+                val color = ContextCompat.getColor(itemView.context, R.color.purple)
+                binding.cardSuggestedproduct.strokeColor = color
+
                 val layoutParam = binding.suggesteditemstatecardview.layoutParams
                 layoutParam.height = 96.dpToPx(itemView.context)
                 binding.suggesteditemstatecardview.layoutParams = layoutParam
@@ -94,6 +98,9 @@ class CartSuggestedAdapter(private var dataList: List<Product>, private val cart
             } else {
                 binding.txtCount.visibility = View.GONE
                 binding.btnDelete.visibility = View.GONE
+
+                val color = ContextCompat.getColor(itemView.context, R.color.stroke_grey)
+                binding.cardSuggestedproduct.strokeColor = color
 
                 val layoutParam = binding.suggesteditemstatecardview.layoutParams
                 layoutParam.height = 32.dpToPx(itemView.context)

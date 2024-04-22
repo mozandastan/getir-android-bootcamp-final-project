@@ -3,6 +3,7 @@
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -70,7 +71,7 @@ class VerticalAdapter(private var dataList: List<Product>, private val viewModel
         fun bind(product: Product) {
             Glide.with(itemView.context)
                 .load(product.imageURL)
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.img_defproduct)
                 .into(binding.imgProduct)
 
             binding.txtName.text = product.name
@@ -91,6 +92,9 @@ class VerticalAdapter(private var dataList: List<Product>, private val viewModel
                 binding.txtCount.visibility = View.VISIBLE
                 binding.btnDelete.visibility = View.VISIBLE
 
+                val color = ContextCompat.getColor(itemView.context, R.color.purple)
+                binding.cardProduct.strokeColor = color
+
                 val layoutParam = binding.itemstatecardview.layoutParams
                 layoutParam.height = 96.dpToPx(itemView.context)
                 binding.itemstatecardview.layoutParams = layoutParam
@@ -103,6 +107,10 @@ class VerticalAdapter(private var dataList: List<Product>, private val viewModel
             } else {
                 binding.txtCount.visibility = View.GONE
                 binding.btnDelete.visibility = View.GONE
+
+                val color = ContextCompat.getColor(itemView.context, R.color.stroke_grey)
+                binding.cardProduct.strokeColor = color
+
                 val layoutParam = binding.itemstatecardview.layoutParams
                 layoutParam.height = 32.dpToPx(itemView.context)
                 binding.itemstatecardview.layoutParams = layoutParam
