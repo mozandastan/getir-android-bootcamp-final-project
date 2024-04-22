@@ -10,37 +10,27 @@ import javax.inject.Singleton
 
 @Singleton
 class ProductRepository @Inject constructor(private val apiService: ApiService) {
-
-
-    suspend fun getProducts(): Flow<CallResult<List<Product>>> = flow {
-        emit(CallResult.Loading)
-        try {
-            val response = apiService.getProducts()
-            if (response.isSuccessful) {
-                val productsResponse = response.body()
-                val products = productsResponse?.get(0)?.products
-                emit(CallResult.Success(products ?: emptyList()))
-            } else {
-                emit(CallResult.Error(response.message()))
-            }
-        } catch (e: Exception) {
-            emit(CallResult.Error(e.message ?: "An error occurred"))
-        }
+    //API call for Products
+    suspend fun getProducts(): Flow<CallResult<List<Product>>> {
+        //Get List from response if the List is not null
+        return fetchProductsFromApi { apiService.getProducts().body()?.get(0)?.products ?: emptyList() }
     }
-
-    suspend fun getSuggestedProducts(): Flow<CallResult<List<Product>>> = flow {
+    //API call for SuggestedProducts
+    suspend fun getSuggestedProducts(): Flow<CallResult<List<Product>>> {
+        //Get List from response if the List is not null
+        return fetchProductsFromApi { apiService.getSuggestedProducts().body()?.get(0)?.products ?: emptyList() }
+    }
+    private suspend fun fetchProductsFromApi(apiCall: suspend () -> List<Product>):
+        Flow<CallResult<List<Product>>> = flow {
+        //Loading Animation could be displayed in UI according to state
         emit(CallResult.Loading)
         try {
-            val response = apiService.getSuggestedProducts()
-            if (response.isSuccessful) {
-                val suggestedProductsResponse = response.body()
-                val products = suggestedProductsResponse?.get(0)?.products
-                emit(CallResult.Success(products ?: emptyList()))
-            } else {
-                emit(CallResult.Error(response.message()))
-            }
+            //Make the API call and get the response
+            val response = apiCall.invoke()
+            //If data was received successfully, success status
+            emit(CallResult.Success(response))
         } catch (e: Exception) {
-            emit(CallResult.Error(e.message ?: "An error occurred"))
+            emit(CallResult.Error(e.message ?: "An error occurred while retrieving data"))
         }
     }
 
