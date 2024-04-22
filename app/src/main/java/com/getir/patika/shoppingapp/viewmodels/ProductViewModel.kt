@@ -32,15 +32,13 @@ class ProductViewModel @Inject constructor(private val productRepository: Produc
         viewModelScope.launch {
             productRepository.getProducts().collect { result ->
                 when (result) {
-                    is CallResult.Loading -> {
-                    }
+                    //is CallResult.Loading -> //Loading could be displayed in UI
                     is CallResult.Success -> {
-                        result.data.let {
-                            _verticalProductList.value = it
+                        result.data.let { products ->
+                            _verticalProductList.value = products
                         }
                     }
-                    is CallResult.Error -> {
-                    }
+                    else -> Log.e("ProductViewModel", "Failed to fetch vertical products")
                 }
             }
         }
@@ -49,15 +47,13 @@ class ProductViewModel @Inject constructor(private val productRepository: Produc
         viewModelScope.launch {
             productRepository.getSuggestedProducts().collect { result ->
                 when (result) {
-                    is CallResult.Loading -> {
-                    }
+                    //is CallResult.Loading -> //Loading could be displayed in UI
                     is CallResult.Success -> {
-                        result.data.let {
-                            _horizontalProductList.value = it
+                        result.data.let { products ->
+                            _horizontalProductList.value = products
                         }
                     }
-                    is CallResult.Error -> {
-                    }
+                    else -> Log.e("ProductViewModel", "Failed to fetch horizontal products")
                 }
             }
         }

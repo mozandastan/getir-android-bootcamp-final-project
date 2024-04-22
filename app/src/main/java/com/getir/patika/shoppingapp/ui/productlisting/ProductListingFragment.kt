@@ -8,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.getir.patika.shoppingapp.R
@@ -21,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProductListingFragment : Fragment() {
 
     private lateinit var binding: FragmentProductListingBinding
-    private val viewModel: ProductViewModel by activityViewModels()
+    private val productViewModel: ProductViewModel by activityViewModels()
     private val cartViewModel: CartViewModel by activityViewModels()
     private lateinit var horizontalAdapter: HorizontalAdapter
     private lateinit var verticalAdapter: VerticalAdapter
@@ -30,57 +28,70 @@ class ProductListingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentProductListingBinding.inflate(inflater,container,false)
-        binding.incToolbar.txtToolbar.text = "Ürünler"
-        binding.incToolbar.btnCart.visibility = View.VISIBLE
-        binding.incToolbar.btnClose.visibility = View.GONE
-        binding.incToolbar.btnDeletecart.visibility = View.GONE
-        return binding.root
+        setupToolbar()
 
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.incToolbar.btnCart.setOnClickListener{
-            if(cartViewModel.totalPrice.value!! > 0){
+        setupCartButton()
+        setupRecyclerViews()
+        observeViewModels()
+    }
+    private fun setupToolbar() {
+        binding.incToolbar.apply {
+            txtToolbar.text = getString(R.string.urunler)
+            btnCart.visibility = View.VISIBLE
+            btnClose.visibility = View.GONE
+            btnDeletecart.visibility = View.GONE
+        }
+    }
+    private fun setupCartButton() {
+        binding.incToolbar.btnCart.setOnClickListener {
+            //Check if totalPrice greater than 0 to navigate Cart Screen
+            if (cartViewModel.totalPrice.value!! > 0) {
                 findNavController().navigate(R.id.action_productListingFragment_to_shoppingCartFragment2)
-            }
-            else{
-                showToast()
+            } else {
+                showToast(getString(R.string.cart_empty))
             }
         }
-
-        val layoutManager = GridLayoutManager(requireContext(), 3)
-        binding.recVertical.layoutManager = layoutManager
-        verticalAdapter = VerticalAdapter(emptyList(),viewModel,cartViewModel)
+    }
+    private fun showToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+    private fun setupRecyclerViews() {
+        //Set the Vertical Recyclerview adapter and layout
+        binding.recVertical.layoutManager = GridLayoutManager(requireContext(), 3)
+        verticalAdapter = VerticalAdapter(emptyList(), productViewModel, cartViewModel)
         binding.recVertical.adapter = verticalAdapter
-
-        horizontalAdapter = HorizontalAdapter(emptyList(),viewModel,cartViewModel)
+        //Set the Horizontal Recyclerview adapter and layout
+        horizontalAdapter = HorizontalAdapter(emptyList(), productViewModel, cartViewModel)
         binding.recHorizontal.adapter = horizontalAdapter
-
-        viewModel.horizontalProductList.observe(viewLifecycleOwner) { horizontalList ->
+    }
+    private fun observeViewModels() {
+        //Listen to the horizontalProductList to update recyclerview Items
+        productViewModel.horizontalProductList.observe(viewLifecycleOwner) { horizontalList ->
             horizontalAdapter.updateData(horizontalList)
         }
-        viewModel.verticalProductList.observe(viewLifecycleOwner) { verticalList ->
+        //Listen to the verticalProductList to update recyclerview Items
+        productViewModel.verticalProductList.observe(viewLifecycleOwner) { verticalList ->
             verticalAdapter.updateData(verticalList)
         }
-
-        cartViewModel.totalPrice.observe(viewLifecycleOwner, Observer { totalPrice ->
-
+        //Listen to the totalPrice to set text
+        cartViewModel.totalPrice.observe(viewLifecycleOwner) { totalPrice ->
             val formattedPrice = if (totalPrice < 0) {
                 0.00
             } else {
                 totalPrice
             }
             binding.incToolbar.btnText.text = getString(R.string.price_format, formattedPrice)
-        })
-
-        cartViewModel.cartItems.observe(viewLifecycleOwner) { cartItems ->
+        }
+        //Listen to the cartItems to refresh recyclerview Items
+        cartViewModel.cartItems.observe(viewLifecycleOwner) {
             verticalAdapter.refreshData()
             horizontalAdapter.refreshData()
         }
-    }
-    private fun showToast() {
-        Toast.makeText(context, "Sepetiniz boş. Sepetim sayfasına gidebilmek ürün ekleyin.", Toast.LENGTH_SHORT).show()
     }
 }
