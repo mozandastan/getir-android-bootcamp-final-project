@@ -14,13 +14,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductViewModel @Inject constructor(private val productRepository: ProductRepository) : ViewModel() {
-
+    //List for the suggested products
     private val _horizontalProductList = MutableLiveData<List<Product>>()
     val horizontalProductList: LiveData<List<Product>> = _horizontalProductList
-
+    //List for the products
     private val _verticalProductList = MutableLiveData<List<Product>>()
     val verticalProductList: LiveData<List<Product>> = _verticalProductList
-
+    //Item for the Detail Screen
     private val _selectedProduct  = MutableLiveData<Product>()
     val selectedProduct: LiveData<Product> = _selectedProduct
 
@@ -29,6 +29,7 @@ class ProductViewModel @Inject constructor(private val productRepository: Produc
         getSuggestedProducts()
     }
     private fun getProducts() {
+        //Get the datas from repository
         viewModelScope.launch {
             productRepository.getProducts().collect { result ->
                 when (result) {
@@ -44,6 +45,7 @@ class ProductViewModel @Inject constructor(private val productRepository: Produc
         }
     }
     private fun getSuggestedProducts() {
+        //Get the datas from repository
         viewModelScope.launch {
             productRepository.getSuggestedProducts().collect { result ->
                 when (result) {
@@ -59,6 +61,7 @@ class ProductViewModel @Inject constructor(private val productRepository: Produc
         }
     }
     fun setSelectedProduct(product: Product) {
+        //Change the selected item
         _selectedProduct.value = product
     }
 }

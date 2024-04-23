@@ -28,6 +28,7 @@ class ProductDetailFragment : Fragment() {
         binding = FragmentProductDetailBinding.inflate(inflater, container, false)
 
         setupToolbar()
+        // Hide cart operation layout by default
         binding.cardCartOps.visibility = View.GONE
 
         return binding.root
@@ -51,48 +52,58 @@ class ProductDetailFragment : Fragment() {
     }
     private fun setupButtonClickListeners() {
         binding.incToolbar.apply {
+            //Navigate to the Cart screen
             btnCart.setOnClickListener {
                 findNavController().navigate(R.id.action_productDetailFragment_to_shoppingCartFragment2)
             }
+            //Navigate back
             btnClose.setOnClickListener {
                 findNavController().navigateUp()
             }
         }
+        //Add item to the cart
         binding.btnAddcart.setOnClickListener {
             viewModel.selectedProduct.value?.let { product ->
                 cartViewModel.addToCart(product)
             }
         }
+        //Add item to the cart (increase)
         binding.btnPlus.setOnClickListener {
             viewModel.selectedProduct.value?.let { product ->
                 cartViewModel.addToCart(product)
             }
         }
+        //Remove item from the cart
         binding.btnDelete.setOnClickListener {
             viewModel.selectedProduct.value?.let { product ->
-                val itemCount = cartViewModel.getProductCount(product)
+                cartViewModel.removeFromCart(product)
+                // This control is not necessary at this time
+                /*val itemCount = cartViewModel.getProductCount(product)
                 if (itemCount > 1) {
                     cartViewModel.removeFromCart(product)
                 }else{
                     cartViewModel.removeFromCart(product)
-                }
+                }*/
             }
         }
     }
     private fun observeSelectedProduct() {
         viewModel.selectedProduct.observe(viewLifecycleOwner) { selectedProduct ->
+            //Change the UI according to selectedProduct
             displayProductDetails(selectedProduct)
         }
     }
     private fun observeCartItems() {
         cartViewModel.cartItems.observe(viewLifecycleOwner) { cartItems ->
             viewModel.selectedProduct.value?.let { product ->
+                //Change the UI according to Cart info
                 updateCartView(product)
             }
         }
     }
     private fun observeTotalPrice() {
         cartViewModel.totalPrice.observe(viewLifecycleOwner) { totalPrice ->
+            //Change the totalPrice text according to totalPrice
             if (totalPrice > 0) {
                 binding.incToolbar.btnCart.visibility = View.VISIBLE
                 binding.incToolbar.btnText.text = getString(R.string.price_format, totalPrice)
@@ -102,27 +113,32 @@ class ProductDetailFragment : Fragment() {
         }
     }
     private fun displayProductDetails(product: Product) {
+        //Load image
         val imgUrl = product.imageURL ?: product.squareThumbnailURL
         Glide.with(requireContext())
             .load(imgUrl)
             .placeholder(R.drawable.img_defproduct)
             .into(binding.imgProduct)
-
+        //Set texts
         binding.txtName.text = product.name
         binding.txtPrice.text = product.priceText
         binding.txtAtt.text = product.attribute ?: product.shortDescription
     }
     private fun updateCartView(product: Product) {
+        // Check if the product is in the cart
         val itemCount = cartViewModel.getProductCount(product)
         if (itemCount > 0) {
+            //Show Cartops and hide AddCart
             binding.txtCount.text = itemCount.toString()
             binding.cardCartOps.visibility = View.VISIBLE
             binding.btnAddcart.visibility = View.GONE
+            //Change the button image according to count of that item
             if (itemCount == 1) {
                 binding.btnDelete.setImageResource(R.drawable.img_trash)
             } else {
                 binding.btnDelete.setImageResource(R.drawable.img_minus)
             }
+            // If the product is not in the cart
         } else {
             binding.cardCartOps.visibility = View.GONE
             binding.btnAddcart.visibility = View.VISIBLE

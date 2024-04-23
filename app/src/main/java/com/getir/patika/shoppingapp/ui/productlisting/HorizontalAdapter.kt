@@ -11,7 +11,6 @@ import com.getir.patika.shoppingapp.R
 import com.getir.patika.shoppingapp.data.models.Product
 import com.getir.patika.shoppingapp.databinding.ItemSuggestedproductBinding
 import com.getir.patika.shoppingapp.utils.Constants
-import com.getir.patika.shoppingapp.utils.Constants.PRODUCT_ITEM_CARD_MAX_HEIGHT
 import com.getir.patika.shoppingapp.utils.dpToPx
 import com.getir.patika.shoppingapp.viewmodels.CartViewModel
 import com.getir.patika.shoppingapp.viewmodels.ProductViewModel
@@ -67,7 +66,7 @@ class HorizontalAdapter(private var dataList: List<Product>,
         fun bind(product: Product) {
 
             //Load image
-            val imgUrl = product.squareThumbnailURL ?:product.imageURL
+            val imgUrl = product.squareThumbnailURL ?: product.imageURL
             Glide.with(itemView.context)
                 .load(imgUrl)
                 .placeholder(R.drawable.img_defproduct)
@@ -93,7 +92,7 @@ class HorizontalAdapter(private var dataList: List<Product>,
                 binding.cardSuggestedproduct.strokeColor = color
                 // Change the button cart's maximum height
                 val layoutParam = binding.suggesteditemstatecardview.layoutParams
-                layoutParam.height = PRODUCT_ITEM_CARD_MAX_HEIGHT.dpToPx(itemView.context)
+                layoutParam.height = Constants.PRODUCT_ITEM_CARD_MAX_HEIGHT.dpToPx(itemView.context)
                 binding.suggesteditemstatecardview.layoutParams = layoutParam
                 //Change the button image according to count of that item
                 if(count == 1){

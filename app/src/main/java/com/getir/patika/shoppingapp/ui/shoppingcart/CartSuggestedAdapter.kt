@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.getir.patika.shoppingapp.R
 import com.getir.patika.shoppingapp.data.models.Product
-import com.getir.patika.shoppingapp.databinding.ItemAddedproductBinding
 import com.getir.patika.shoppingapp.databinding.ItemSuggestedproductBinding
+import com.getir.patika.shoppingapp.utils.Constants
 import com.getir.patika.shoppingapp.utils.dpToPx
 import com.getir.patika.shoppingapp.viewmodels.CartViewModel
 
@@ -17,8 +17,7 @@ class CartSuggestedAdapter(private var dataList: List<Product>, private val cart
     RecyclerView.Adapter<CartSuggestedAdapter.CartViewHolder>() {
 
     fun updateData(newDataList: List<Product>) {
-        val uniqueDataList = newDataList.distinctBy { it.id }
-        dataList = uniqueDataList
+        dataList = newDataList
         notifyDataSetChanged()
     }
     fun refreshData(){
@@ -36,74 +35,71 @@ class CartSuggestedAdapter(private var dataList: List<Product>, private val cart
         holder.bind(item)
     }
 
-    override fun getItemCount(): Int {
-        return dataList.size
-    }
+    override fun getItemCount(): Int = dataList.size
 
     inner class CartViewHolder(private val binding: ItemSuggestedproductBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+            init {
+                //Set add to cart button
+                binding.btnPlus.setOnClickListener {
+                    val product = dataList[bindingAdapterPosition]
+                    cartViewModel.addToCart(product)
+                }
+                //Set remove from cart button
+                binding.btnDelete.setOnClickListener {
+                    val product = dataList[bindingAdapterPosition]
+                    if (cartViewModel.isProductInCart(product)) {
+                        cartViewModel.removeFromCart(product)
+                    }
+                }
+            }
         fun bind(product: Product) {
 
-            binding.btnPlus.setOnClickListener {
-                cartViewModel.addToCart(product)
-            }
-
-            binding.btnDelete.setOnClickListener {
-                cartViewModel.removeFromCart(product)
-            }
-
-            var imgUrl: String? = ""
-            product.imageURL?.let {
-                imgUrl = product.imageURL
-            } ?: run {
-                imgUrl = product.squareThumbnailURL
-            }
+            //Load image
+            val imgUrl = product.squareThumbnailURL ?: product.imageURL
             Glide.with(itemView.context)
                 .load(imgUrl)
                 .placeholder(R.drawable.img_defproduct)
                 .into(binding.imgSuggestedproduct)
 
+            //Set texts
             binding.txtName.text = product.name
             binding.txtPrice.text = product.priceText
-
-            var attText: String? = ""
-            product.attribute?.let {
-                attText = product.attribute
-            } ?: run {
-                attText = product.shortDescription
-            }
+            val attText = product.attribute ?: product.shortDescription
             binding.txtAtt.text = attText
 
-            binding.txtCount.text = cartViewModel.getProductCount(product).toString()
-
-            val cartItems = cartViewModel.cartItems.value.orEmpty()
-            val count = cartItems.count { it.id == product.id }
+            // Check if the product is in the cart
+            val count = cartViewModel.getProductCount(product)
             if (count > 0) {
+                //Show item count and remove button
                 binding.txtCount.text = count.toString()
                 binding.txtCount.visibility = View.VISIBLE
                 binding.btnDelete.visibility = View.VISIBLE
-
+                //Change the image stroke color
                 val color = ContextCompat.getColor(itemView.context, R.color.purple)
                 binding.cardSuggestedproduct.strokeColor = color
-
+                // Change the button cart's maximum height
                 val layoutParam = binding.suggesteditemstatecardview.layoutParams
-                layoutParam.height = 96.dpToPx(itemView.context)
+                layoutParam.height = Constants.PRODUCT_ITEM_CARD_MAX_HEIGHT.dpToPx(itemView.context)
                 binding.suggesteditemstatecardview.layoutParams = layoutParam
-
-                if (cartViewModel.getProductCount(product) > 1) {
-                    binding.btnDelete.setImageResource(R.drawable.img_minus)
-                } else {
+                //Change the button image according to count of that item
+                if(count == 1){
                     binding.btnDelete.setImageResource(R.drawable.img_trash)
+                }else{
+                    binding.btnDelete.setImageResource(R.drawable.img_minus)
                 }
+                // If the product is not in the cart
             } else {
+                //Hide item count and remove button
                 binding.txtCount.visibility = View.GONE
                 binding.btnDelete.visibility = View.GONE
-
+                //Change the image stroke color to the default
                 val color = ContextCompat.getColor(itemView.context, R.color.stroke_grey)
                 binding.cardSuggestedproduct.strokeColor = color
-
+                // Change the button cart's maximum height
                 val layoutParam = binding.suggesteditemstatecardview.layoutParams
-                layoutParam.height = 32.dpToPx(itemView.context)
+                layoutParam.height = Constants.PRODUCT_ITEM_CARD_MIN_HEIGHT.dpToPx(itemView.context)
                 binding.suggesteditemstatecardview.layoutParams = layoutParam
             }
         }
