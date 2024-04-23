@@ -1,20 +1,19 @@
 package com.getir.patika.shoppingapp.ui.shoppingcart
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.getir.patika.shoppingapp.R
 import com.getir.patika.shoppingapp.data.models.Product
 import com.getir.patika.shoppingapp.databinding.ItemAddedproductBinding
-import com.getir.patika.shoppingapp.utils.dpToPx
 import com.getir.patika.shoppingapp.viewmodels.CartViewModel
 
 class CartAdapter(private var dataList: List<Product>,private val cartViewModel: CartViewModel) :
     RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
     fun updateData(newDataList: List<Product>) {
+        //To avoid showing duplicate products
         val uniqueDataList = newDataList.distinctBy { it.id }
         dataList = uniqueDataList
         notifyDataSetChanged()
@@ -30,44 +29,44 @@ class CartAdapter(private var dataList: List<Product>,private val cartViewModel:
         holder.bind(item)
     }
 
-    override fun getItemCount(): Int {
-        return dataList.size
-    }
+    override fun getItemCount(): Int = dataList.size
 
     inner class CartViewHolder(private val binding: ItemAddedproductBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(product: Product) {
 
+        init {
+            //Set add to cart button
             binding.btnPlus.setOnClickListener {
+                val product = dataList[bindingAdapterPosition]
                 cartViewModel.addToCart(product)
             }
-
+            //Set remove from cart button
             binding.btnDelete.setOnClickListener {
-                cartViewModel.removeFromCart(product)
+                val product = dataList[bindingAdapterPosition]
+                if (cartViewModel.isProductInCart(product)) {
+                    cartViewModel.removeFromCart(product)
+                }
             }
-
-            var imgUrl: String? = ""
-            product.imageURL?.let {
-                imgUrl = product.imageURL } ?: run {
-                imgUrl = product.squareThumbnailURL
-            }
+        }
+        fun bind(product: Product) {
+            //Load image
+            val imgUrl = product.squareThumbnailURL ?: product.thumbnailURL ?: product.imageURL
             Glide.with(itemView.context)
                 .load(imgUrl)
                 .placeholder(R.drawable.img_defproduct)
                 .into(binding.imgProduct)
 
+            //Set texts
             binding.txtName.text = product.name
             binding.txtPrice.text = product.priceText
-
-            var attText : String? = ""
-            product.attribute?.let {
-                attText = product.attribute } ?: run {
-                attText = product.shortDescription
-            }
+            val attText = product.attribute ?: product.shortDescription
             binding.txtAtt.text = attText
 
-            binding.txtCount.text = cartViewModel.getProductCount(product).toString()
+            // Get the product count
+            val count = cartViewModel.getProductCount(product)
+            binding.txtCount.text = count.toString()
 
-            if(cartViewModel.getProductCount(product) > 1){
+            //Change the button image according to count of that item
+            if(count > 1){
                 binding.btnDelete.setImageResource(R.drawable.img_minus)
             }else{
                 binding.btnDelete.setImageResource(R.drawable.img_trash)
