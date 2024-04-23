@@ -16,4 +16,5 @@
     <string name="cart_empty">Sepetiniz boş. Sepetim sayfasına gidebilmek ürün ekleyin.</string>
     <string name="urun_detay">Ürün Detayı</string>
     <string name="sepetim">Sepetim</string>
+    <string name="onerilen_urunler">Önerilen Ürünler</string>
 </resources>

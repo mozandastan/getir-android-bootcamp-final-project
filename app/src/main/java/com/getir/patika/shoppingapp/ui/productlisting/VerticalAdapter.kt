@@ -77,8 +77,6 @@ class VerticalAdapter(private var dataList: List<Product>,
             binding.txtAtt.text = attText
 
             // Check if the product is in the cart
-            //val cartItems = cartViewModel.cartItems.value.orEmpty()
-            //val count = cartItems.count { it.id == product.id }
             val count = cartViewModel.getProductCount(product)
             if (count > 0) {
                 //Show item count and remove button

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.getir.patika.shoppingapp.R
@@ -80,10 +79,7 @@ class ProductDetailFragment : Fragment() {
                 // This control is not necessary at this time
                 /*val itemCount = cartViewModel.getProductCount(product)
                 if (itemCount > 1) {
-                    cartViewModel.removeFromCart(product)
-                }else{
-                    cartViewModel.removeFromCart(product)
-                }*/
+                    cartViewModel.removeFromCart(product)*/
             }
         }
     }
