@@ -59,7 +59,9 @@ The application is designed using Model-View-ViewModel (MVVM) architecture.
 Models, services and repositories in the project are located in this layer.
 
 -**models:** A common model named Product is used to hold the data coming from the API as an object model. Two helper models are used to access products in the received data.
+
 -**repository:** Used to retrieve product data. It retrieves data using the ApiService interface. An asynchronous operation is provided with Flow.
+
 -**service:** It reaches the endpoints of the API and enables the relevant operation (GET) to be performed.
 #### DI
 It ensures that structures such as Retrofit and Repository used in the project are created once and managed from a single place.
@@ -67,7 +69,9 @@ It ensures that structures such as Retrofit and Repository used in the project a
 The screens in the project and the structures they contain are located in this layer. A common toolbar is used for each page.
 
 -**details:** Contains a Fragment that performs functions on the Detail page. It communicates with 2 ViewModels to update the UI or ViewModel data.
+
 -**productlisting:** Displays data retrieved from the API. Two different RecyclerViews are used. The relevant Adapter classes are also included here. It communicates with 2 ViewModels to update the UI or ViewModel data.
+
 -**shoppingcart:** Deals with operations related to the cart page. This page contains 2 RecyclerViews. The adapters for these are also included here. It updates the UI or ViewModel data by communicating with 2 ViewModels. While sorting the product items, the Divider class is used to separate the items from each other.
 #### Utils
 Contains constants and extension methods used in the project.
@@ -75,6 +79,7 @@ Contains constants and extension methods used in the project.
 Two ViewModels are used: ProductViewModel for products and CartViewModel for cart operations.
 
 -**ProductViewModel:** Manages the business logic of products. The Repository class is injected and used. Retrieves and lists products and suggested products. Also keeps the selected product for the detail page. Results are communicated to the UI via LiveData.
+
 -**CartViewModel:** Manages the business logic of the cart. Adds, removes, and clears products from the user's cart. Also keeps the products in the cart and the total price. This ViewModel allows users to interact with the cart and update its status. Results are communicated to the UI via LiveData.
 
 ---
