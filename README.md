@@ -26,19 +26,22 @@ Shopping App is an application where users can view a list of products, see thei
 #### Products Page
 On this page, the products retrieved from the API are listed. Each product is displayed with information such as its image, name and price. Users can view the details of the desired product, add it to the cart, or remove it from the cart.
 
-![ss1](https://github.com/mozandastan/getir-android-bootcamp-final-project/assets/151640771/7a33f17a-6a41-4e64-a868-d5c85fec8981) ![ss1](https://github.com/mozandastan/getir-android-bootcamp-final-project/assets/151640771/52156e75-a816-41f9-a6c5-f47d5322aad8)
+![ss1_1](https://github.com/mozandastan/getir-android-bootcamp-final-project/assets/151640771/7a33f17a-6a41-4e64-a868-d5c85fec8981) ![ss1_2](https://github.com/mozandastan/getir-android-bootcamp-final-project/assets/151640771/52156e75-a816-41f9-a6c5-f47d5322aad8)
 
 #### Product Detail Page
 When the user clicks on any product from the Products Page, they are directed to this page.
 Detailed information about the product is displayed on this page. Users can also add or remove the product from the cart.
 
-![ss1](https://github.com/mozandastan/getir-android-bootcamp-final-project/assets/151640771/cb76c5ff-4312-4d72-a31a-b2c02d7d56f2) ![ss1](https://github.com/mozandastan/getir-android-bootcamp-final-project/assets/151640771/6106dc5d-a695-4fd7-a1c2-e447d8c7a478)
+![ss2_1](https://github.com/mozandastan/getir-android-bootcamp-final-project/assets/151640771/cb76c5ff-4312-4d72-a31a-b2c02d7d56f2) ![ss2_2](https://github.com/mozandastan/getir-android-bootcamp-final-project/assets/151640771/6106dc5d-a695-4fd7-a1c2-e447d8c7a478)
 
 #### Shopping Cart Page
 Users are redirected to this page by clicking on the Cart from the Products and Product Detail pages.
 On this page, the products in the user's cart are listed. Users can view, increase or decrease the quantity, or remove items from their carts. Additionally, the total amount is displayed, and users can complete the order on this page.
 
-![ss1](https://github.com/mozandastan/getir-android-bootcamp-final-project/assets/151640771/96f08b4a-fdd4-4126-acb3-59984f8d3c08) ![ss1](https://github.com/mozandastan/getir-android-bootcamp-final-project/assets/151640771/e4ab66cb-7a9a-4bc5-b672-76db0807a8b0) ![ss1](https://github.com/mozandastan/getir-android-bootcamp-final-project/assets/151640771/3a054ffc-0f9f-4a97-b4c4-e3b4e3d1e131)
+![ss3_1](https://github.com/mozandastan/getir-android-bootcamp-final-project/assets/151640771/ad2a98c5-224e-434c-85b4-e7731c61cde6) ![ss3_2](https://github.com/mozandastan/getir-android-bootcamp-final-project/assets/151640771/baf198bf-0a63-4530-9f67-999e13007e6d)     
+<p align="center">
+  <img src="https://github.com/mozandastan/getir-android-bootcamp-final-project/assets/151640771/ccfc8726-23f8-447a-a358-2ce991d887b3" />
+</p>
 
 ---
 ## Libraries
